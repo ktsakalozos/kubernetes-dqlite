@@ -17,13 +17,13 @@ load("//build:workspace_mirror.bzl", "mirror")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("@io_bazel_rules_docker//container:container.bzl", "container_pull")
 
-CNI_VERSION = "0.8.6"
+CNI_VERSION = "0.8.7"
 _CNI_TARBALL_ARCH_SHA256 = {
-    "amd64": "994fbfcdbb2eedcfa87e48d8edb9bb365f4e2747a7e47658482556c12fd9b2f5",
-    "arm": "28e61b5847265135dc1ca397bf94322ecce4acab5c79cc7d360ca3f6a655bdb7",
-    "arm64": "43fbf750c5eccb10accffeeb092693c32b236fb25d919cf058c91a677822c999",
-    "ppc64le": "61d6c6c15d3e4fa3eb85d128c9c0ff2658f38e59047ae359be47d193c673e116",
-    "s390x": "ca126a3bd2cd8dff1c7bbfc3c69933b284c4e77614391c7e1f74b0851fc3b289",
+    "amd64": "977824932d5667c7a37aa6a3cbba40100a6873e7bd97e83e8be837e3e7afd0a8",
+    "arm": "5757778f4c322ffd93d7586c60037b81a2eb79271af6f4edf9ff62b4f7868ed9",
+    "arm64": "ae13d7b5c05bd180ea9b5b68f44bdaa7bfb41034a2ef1d68fd8e1259797d642f",
+    "ppc64le": "70a8c5448ed03a3b27c6a89499a05285760a45252ec7eae4190c70ba5400d4ba",
+    "s390x": "3a0008f98ea5b4b6fd367cac3d8096f19bc080a779cf81fd0bcbc5bd1396ace7",
 }
 
 CRI_TOOLS_VERSION = "1.18.0"
@@ -38,11 +38,11 @@ _CRI_TARBALL_ARCH_SHA256 = {
     "windows-amd64": "5045bcc6d8b0e6004be123ab99ea06e5b1b2ae1e586c968fcdf85fccd4d67ae1",
 }
 
-ETCD_VERSION = "3.4.9"
+ETCD_VERSION = "3.4.13"
 _ETCD_TARBALL_ARCH_SHA256 = {
-    "amd64": "bcab421f6bf4111accfceb004e0a0ac2bcfb92ac93081d9429e313248dd78c41",
-    "arm64": "fd9bf37662a851905d75160fea0f5d10055c1bee0a734e78c5112cc56c9faa18",
-    "ppc64le": "bfdcea0fc83c6d6edb70667a2272f8fc597c61976ecc6f8ecbfeb380ff02618b",
+    "amd64": "2ac029e47bab752dacdb7b30032f230f49e2f457cbc32e8f555c2210bb5ff107",
+    "arm64": "1934ebb9f9f6501f706111b78e5e321a7ff8d7792d3d96a76e2d01874e42a300",
+    "ppc64le": "fc77c3949b5178373734c3b276eb2281c954c3cd2225ccb05cdbdf721e1f775a",
 }
 
 # Dependencies needed for a Kubernetes "release", e.g. building docker images,
@@ -102,15 +102,15 @@ _DEBIAN_IPTABLES_DIGEST = {
 # Use skopeo to find these values: https://github.com/containers/skopeo
 #
 # Example
-# Manifest: skopeo inspect docker://gcr.io/k8s-staging-build-image/go-runner:buster-v2.0.0
-# Arches: skopeo inspect --raw docker://gcr.io/k8s-staging-build-image/go-runner:buster-v2.0.0
+# Manifest: skopeo inspect docker://gcr.io/k8s-staging-build-image/go-runner:buster-v2.0.1
+# Arches: skopeo inspect --raw docker://gcr.io/k8s-staging-build-image/go-runner:buster-v2.0.1
 _GO_RUNNER_DIGEST = {
-    "manifest": "sha256:ff6e2f3683e7d284674ed18341fc898060204e8c43c9b477e13c6f7faf3e66d4",
-    "amd64": "sha256:140404aed601b95a2a0a1aeac0608a0fdbd5fc339a8ea6b2ee4a63c7e1f56415",
-    "arm": "sha256:5d4e8c77bc472610e7e46bbd2b83e167e243434b8287ba2ffe6b09aba9f08ecc",
-    "arm64": "sha256:62429a05973522064480deb44134e3ca355ee89c7781f3fc3ee9072f17de0085",
-    "ppc64le": "sha256:05c8575486ccea90c35e8d8ba28c84aee57a03d58329b1354cf7193c372d2de2",
-    "s390x": "sha256:e886ab4557e60293081f2e47a5b52e84bd3d60290a0f46fb99fac6eec35479ec",
+    "manifest": "sha256:687c17db2f5cd4aea13faa7ae56bee639a5b11f380c431a9800205624f53541c",
+    "amd64": "sha256:b02bdb3444b1e7fb14cb5b60174f0e8f0a087ff4c294352e6c31c17da99a4ee2",
+    "arm": "sha256:0d7563c814c0cd88bc5937b6e606d266409b5b7cee2deb6c04c6dcb6d7daaa5d",
+    "arm64": "sha256:78f42645ddfd2ab9dfc4053834aa0042c82c8c550f9f61a2a76fd9f1791e5308",
+    "ppc64le": "sha256:93e3ca63df801a5c1ad15bdbb9c50fa38e5db3479a92d8f4516c00dfd736f227",
+    "s390x": "sha256:d7ed7bd8d58a6570504f14a50d502c2df97f944378f9f5306519f3379cb92fe2",
 }
 
 def _digest(d, arch):
@@ -127,7 +127,7 @@ def image_dependencies():
             digest = _digest(_GO_RUNNER_DIGEST, arch),
             registry = "k8s.gcr.io/build-image",
             repository = "go-runner",
-            tag = "buster-v2.0.0",  # ignored, but kept here for documentation
+            tag = "buster-v2.0.1",  # ignored, but kept here for documentation
         )
 
         container_pull(
