@@ -33,8 +33,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	kvsqlfactory "github.com/freeekanayaka/kvsql"
-	kvsqlserver "github.com/freeekanayaka/kvsql/server"
+	kvsqlfactory "github.com/ktsakalozos/kvsql"
+	kvsqlserver "github.com/ktsakalozos/kvsql/server"
 	extensionsapiserver "k8s.io/apiextensions-apiserver/pkg/apiserver"
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 	utilnet "k8s.io/apimachinery/pkg/util/net"

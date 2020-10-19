@@ -1,15 +1,11 @@
 # Define some VCS context
 PARENT_BRANCH ?= master
 
-# Set the mode for code-coverage
-GO_TEST_COVERAGE_MODE ?= count
-GO_TEST_COVERAGE_FILE_NAME ?= coverage.out
+# Set a default `min_confidence` value for `golint`
+GOLINT_MIN_CONFIDENCE ?= 0.3
 
 # Set flags for `gofmt`
 GOFMT_FLAGS ?= -s
-
-# Set a default `min_confidence` value for `golint`
-GOLINT_MIN_CONFIDENCE ?= 0.3
 
 
 all: install-deps build install
@@ -46,13 +42,6 @@ test-with-coverage:
 test-with-coverage-formatted:
 	go test -cover ./... | column -t | sort -r
 
-test-with-coverage-profile:
-	echo "mode: ${GO_TEST_COVERAGE_MODE}" > ${GO_TEST_COVERAGE_FILE_NAME}
-	for package in $$(go list ./...); do \
-		go test -covermode ${GO_TEST_COVERAGE_MODE} -coverprofile "coverage_$${package##*/}.out" "$${package}"; \
-		sed '1d' "coverage_$${package##*/}.out" >> ${GO_TEST_COVERAGE_FILE_NAME}; \
-	done
-
 format-lint:
 	errors=$$(gofmt -l ${GOFMT_FLAGS} .); if [ "$${errors}" != "" ]; then echo "$${errors}"; exit 1; fi
 
@@ -80,4 +69,4 @@ vet:
 	go vet ./...
 
 
-.PHONY: all clean build install install-deps install-deps-dev update-deps update-deps-dev test test-with-coverage test-with-coverage-formatted test-with-coverage-profile format-lint import-lint style-lint copyright-lint lint format-fix import-fix copyright-fix vet
+.PHONY: all clean build install install-deps install-deps-dev update-deps update-deps-dev test test-with-coverage test-with-coverage-formatted format-lint import-lint style-lint copyright-lint lint format-fix import-fix copyright-fix vet
